@@ -1,20 +1,34 @@
 package com.example.userregistrationapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class HomeActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_home)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        val tvThongTin = findViewById<TextView>(R.id.tvThongTin)
+        val btnDangXuat = findViewById<Button>(R.id.btnDangXuat)
+
+        // Nhận đối tượng User từ Intent
+        val user = intent.getSerializableExtra("USER_DATA") as? User
+
+        user?.let {
+            tvThongTin.text = """
+                Xin chào: ${it.hoTen}
+                Email: ${it.email}
+                Số điện thoại: ${it.soDienThoai}
+                Trạng thái: Đăng ký thành công!
+            """.trimIndent()
+        }
+
+        // Quay lại màn hình đăng ký
+        btnDangXuat.setOnClickListener {
+            finish()
         }
     }
 }
